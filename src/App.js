@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import './App.css';
 import Todo from "./Todo";
+import db from "./firebase";
 
 function App() {
+    //we need a list of todo's
+  //useState[params, funcyion]        init params
+  const [todos, setTodos] = useState([]);
+  const [input, setInput] = useState('');
+  
+  useEffect(()=>{
+    console.log('fdgfdg');
+
+    db.collection("todos").onSnapshot(snapshot =>{
+     
+      setTodos(snapshot.docs.map(doc => doc.data().title))});
+  },[]);
+
   //delete todo function
-  function deleteTodo(e) {
+  const deleteTodo = (e) => {
     e.preventDefault();
     let index = e.target.value;
     //only delete 1 element
     todos.splice(index, 1);
     setTodos([...todos]);
   }
-  //we need a list of todo's
-  //useState[params, funcyion]        init params
-  const [todos, setTodos] = useState([]);
-  const [input, setInput] = useState('');
+
+
   const handleSubmit = (e) => {
 
     //prevent refresh
@@ -22,7 +34,11 @@ function App() {
     //[],'walk the dog'
     //['walk the dog']
     //put input at the end of todos =>[...todos,]
-    setTodos([input, ...todos]);
+    // setTodos([input, ...todos]);
+    
+    db.collection("todos").add({
+      title:input,
+    })
     //clear input
     setInput("");
   }
