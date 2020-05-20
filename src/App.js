@@ -29,43 +29,34 @@ function App() {
 
   /* form allow to submitt sth */
   return (
-    <div className="App">
-      <div className="title">
-        <h1>To-do APP</h1>
-      </div>
-
-      <div className="todo-container">
-        <div className="todo-bar">
-          <form>
-            <input value={input}
+    <div className="app">
+      <div className="notepad">
+        <div className="lines"></div>
+        <div className="header">
+          <h1>What do I need to do?</h1>
+          <form className="todo-input">
+            <input
+              className="input-box"
+              value={input}
               onChange={e => setInput(e.target.value)}
               type="text"
             />
-
-            <button disabled={!input} type="submit"
-              onClick={handleSubmit}>
-              Add todo
+            <button className="submit-btn" disabled={!input} type="submit" onClick={handleSubmit}>
+              + Add
           </button>
           </form>
         </div>
-        <div className="todo-content">
-          {todos.map((todo, index) => (
-            <Todo
 
-              key={index}
-              value={index}
-              title={todo}
-              deleteTodo={deleteTodo}
-            />
-          ))}
-
-
-        </div>
+        {todos.map((todo, index) => (
+          <Todo
+            key={index}
+            value={index}
+            title={todo}
+            deleteTodo={deleteTodo}
+          />
+        ))}
 
       </div>
-
-
-
     </div>
   );
 }
